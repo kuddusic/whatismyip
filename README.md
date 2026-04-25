@@ -39,6 +39,26 @@ Run container:
 docker run --rm -p 8080:8080 whatismyip
 ```
 
+## CI and Security Pipeline
+
+GitHub Actions runs two workflows on pushes and pull requests to `main`:
+
+- `CI` workflow:
+  - `go test ./...`
+  - `go build ./...`
+  - `govulncheck ./...`
+  - Trivy filesystem scan (`trivy fs`)
+  - Docker build and Trivy image scan (`trivy image`)
+- `CodeQL` workflow:
+  - GitHub CodeQL analysis for Go
+  - Weekly scheduled scan
+
+Security gates:
+
+- Trivy scans fail the workflow when `HIGH` or `CRITICAL` vulnerabilities are found.
+- `govulncheck` fails the workflow on detected Go vulnerabilities.
+- CodeQL findings appear in the repository's code scanning alerts.
+
 ## Example response
 
 ```json

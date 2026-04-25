@@ -1,0 +1,8 @@
+.git
+.github
+.cursor
+*.md
+*.out
+coverage.out
+bin
+dist
